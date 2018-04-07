@@ -26,7 +26,7 @@ public class SearchSteps {
     public void buildDriver() {
         //driver = new HtmlUnitDriver();
 
-       
+        System.setProperty("webdriver.chrome.driver", "C:\\chromedriver.exe");
         driver = new ChromeDriver();
     }
 
