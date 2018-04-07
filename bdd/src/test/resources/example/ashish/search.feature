@@ -15,7 +15,7 @@ Feature: Enter a search in Google
 
   # This essentially does the same thing as the two above scenarios: included as a technical demo
   Scenario Outline: Search results should display the search term in the title regardless of submission method
-    Given A Gochogle search page
+    Given A Google search page
     When I enter the search term "<search_term>"
     And I submit the search by pressing "<submission_method>"
     Then The search result page title should contain the search term
