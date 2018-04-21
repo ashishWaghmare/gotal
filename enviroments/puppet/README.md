@@ -1,5 +1,5 @@
-Remove firewall
-sudo 
+All machine Remove firewall
+sudo su
 iptables -F
 iptables-save
 
@@ -7,7 +7,7 @@ master
 sudo su
 rpm -ivh http://yum.puppetlabs.com/puppetlabs-release-el-7.noarch.rpm
 yum -y install puppet-server
-vim /etc/profile.d/puppet-agent.sh
+
 
 vim /etc/puppet/puppet.conf
 dns_alt_name
@@ -21,6 +21,8 @@ vagrant ssh puppet-agent-centos
 sudo su
 rpm -ivh http://yum.puppetlabs.com/puppetlabs-release-el-7.noarch.rpm
 yum -y install puppet
+
+
 vim /etc/profile.d/puppet-agent.sh
 
 vim /etc/puppet/puppet.conf
@@ -109,3 +111,14 @@ tomcat::instance { 'default':
 puppet agent --test --server pac.example.com --report
 
 puppete agent -t
+
+puppet agent --configprint server
+
+
+
+
+
+https://github.com/ashishWaghmare/gotal.git
+cd gotal\environments\puppet
+vagrant up
+vagrant ssh puppetmaster
