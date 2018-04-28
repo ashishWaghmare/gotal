@@ -3,8 +3,12 @@ services:
   web:
     build: .
     container_name: web
+    depends_on:
+      - mysql
     ports:
       - "8080:8080"
+    links:
+      - mysql:db
   mysql:  
     image: mysql:latest
     ports:

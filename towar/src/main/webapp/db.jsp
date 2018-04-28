@@ -5,7 +5,7 @@
     <%
      String userid = request.getParameter("user");
      Class.forName("com.mysql.jdbc.Driver");
-     java.sql.Connection con = DriverManager.getConnection("jdbc:mysql://db:3306/mysql","root","root");
+     java.sql.Connection con = DriverManager.getConnection("jdbc:mysql://mysql:3306/mysql?autoReconnect=true","root","root");
      Statement st = con.createStatement();
      ResultSet rs = st.executeQuery("select user, password from mysql.user where user='" + userid + "'");
      try {if(rs.next()) {
@@ -15,4 +15,4 @@
      } finally { con.close();rs.close(); st.close(); }
     %>
     </body>
-    
+        
