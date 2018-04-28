@@ -1,0 +1,7 @@
+Vagrant.configure("2") do |v|
+  v.vm.box = "centos/7"
+  v.vm.synced_folder ".", "/data"
+  v.vm.provider :virtualbox do |vb|
+    vb.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
+  end
+end
