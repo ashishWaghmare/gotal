@@ -1,20 +1,18 @@
-web:
-  image: .
-  ports:
-   - "8080:8080"
-  links:
-   - mysql:db
-
-dbdata:
-  image: mysql:latest
-  volumes:
-   - /var/lib/mysql
-   
-mysql:
-  image: mysql:latest
-  ports:
-   - "3306:3306"
-  volumes_from:
-   - dbdata
-  environment:
-    MYSQL_ROOT_PASSWORD: root
+version: '3.0'  
+services:
+  web:
+    build: .
+    container_name: web
+    ports:
+      - "8080:8080"
+  mysql:  
+    image: mysql:latest
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    container_name: db
+volumes:
+  dbdata:
+networks:
+  towar-net:
