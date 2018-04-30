@@ -2,6 +2,11 @@
 new tutorial 
 
 # towar
+Open Docker Quickstart Terminal
+When your current folder is towar, execute below command 
+
+   docker-compose up
+
 This is sample app shows two docker image
 1. mysql:8.0
 2. web: tomcat:9
