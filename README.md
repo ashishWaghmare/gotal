@@ -1,7 +1,11 @@
 # gotal
-new tutorial 
+Vagrant and Docker based mix environment which demonstrates end to end demo for DevOps Cycle.
+Involves github,dockerhub and other third party services to complete enitre cycle where we show code changes being pushed from git
+till it gets deployed to production
 
-# towar
+<img src="/dv-cc.png" alt="Whole Cycle"/>
+
+# towar [Java Micro Service]
 Open Docker Quickstart Terminal
 When your current folder is towar, execute below command 
 
@@ -27,6 +31,8 @@ Added JDBC driver and two new jsp
 2. db.jsp
 
 
+# Automated Testing [ Selenium / Cucumber ]
+
 Google Search Example taken from
 Borrowed from https://github.com/dev9com/cucumber-java-selenium-example.git
 
@@ -38,3 +44,7 @@ vagrant init
 vagrant box add ubuntu/xenial64
 vagrant up
 vagrant ssh
+
+# Flkpy [ Flask Python ]
+
+Python and Flask web framework based icroservice 
