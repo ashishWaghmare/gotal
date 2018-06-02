@@ -48,15 +48,18 @@ vim /etc/profile.d/puppet-agent.sh
 
 
 
-Fix DNS Name
-
-vim /etc/hosts
-
+Fix DNS Name for all machines
+vagrant ssh <machine_name>
+sudo su
+vi /etc/hosts
+Add below linex
 192.168.33.10   puppetmaster    puppetmaster.example.com
 192.168.33.11   pac pac.example.com
 192.168.33.12   pau pau.example.com
 
 In Master 
+vi /etc/puppet/puppet.conf
+[main]
 dns_alt_names =  puppetmaster,puppetmaster.example.com
 certname=puppet
 
@@ -68,9 +71,11 @@ Agent Centos
 
 In Master
  /usr/bin/puppet master --no-daemonize --verbose
-Kill before 
+Kill before Server start
 
-  /usr/bin/puppet resource service puppetmaster ensure=running
+/usr/bin/puppet resource service puppetmaster ensure=running
+
+service puppetmaster status
 
 Agent Centos
 service puppet stop
@@ -122,3 +127,5 @@ https://github.com/ashishWaghmare/gotal.git
 cd gotal\environments\puppet
 vagrant up
 vagrant ssh puppetmaster
+
+http://nagiosxi.demos.nagios.com/nagiosxi/login.php?redirect=/nagiosxi/index.php%3f&noauth=1
