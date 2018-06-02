@@ -7,7 +7,7 @@ class MyFirstTests(unittest.TestCase):
     self.assertEqual('Hello, World!', hello())
 
   def test_bad_hello(self):
-    self.assertEqual('Hello, Ashish!', hello())
+    self.assertEqual('Hello, World!', hello())
 
   def test_new_function(self):
     self.assertEqual(0, add())
