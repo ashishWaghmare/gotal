@@ -7,14 +7,14 @@ chef create cookbook reverse-proxy
 Add to file : reverse-proxy\test\integration\default\default_test.rb
 
 ```ruby
-describe package('ngnix') do
+describe package('nginx') do
   it { should be_installed }
 end
 ```
 
 Add to file :
 ```ruby
-package 'ngnix' do
+package 'nginx' do
   action :install
 end
 ```
@@ -32,7 +32,7 @@ Now service resource will be used
 
 Add to file: 
 ```ruby
-describe service('ngnix') do
+describe service('nginx') do
   it { should be_installed }
   it { should be_enabled }
   it { should be_running }
@@ -46,7 +46,30 @@ service 'nginx' do
   action [ :enable, :start ]
 end
 ```
-Now add content 
-
+Now add content but before we can test case
+```ruby
+describe command('curl localhost') do
+  its('stdout') { should match('your text') }
+end
+```
+Now lets create template to make dynamic page
+```bash
 chef generate template index.html
+```
+You can simply add below line in file index.html.erb
+```ruby
+This your text for index page
+```
+Now during deployment this template has to be place at right location
+```ruby
+template '/usr/share/nginx/html/index.html' do
+  source 'index.html.erb'
+  mode '0644'
+end
+```
+Redploy and execute 
+```bash
+kitchen test
+```
 
+Credit: Mischa Taylor
