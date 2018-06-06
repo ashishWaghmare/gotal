@@ -5,6 +5,11 @@ till it gets deployed to production
 
 <img src="/dv-cc.png" alt="Whole Cycle"/>
 
+# Pipeline
+Various ready made tools are available by different vendors. Picking popular tools to understand how code pipeline works by assembling each componenet one after another
+
+<img src="/Code-Pipeline.png" alt="All Components Together"/>
+
 # towar [Java Micro Service]
 Open Docker Quickstart Terminal
 When your current folder is towar, execute below command 
