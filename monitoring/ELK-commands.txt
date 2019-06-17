@@ -1,0 +1,101 @@
+## Aggregate Query
+GET /company/_search
+{
+    "aggs" : {
+        "total_salary" : {
+            "sum" : { "field" : "salary" } 
+        }
+    }
+}
+
+
+
+PUT /company
+{
+  "mappings": {
+    "properties": {
+      "name": {"type": "text"},
+      "salary": {"type": "long"},
+      "location":{"type":"geo_point"}
+      }
+    }
+}
+
+## Delete Index
+DELETE /company
+
+PUT /company
+
+## Create an index named 'company'
+PUT /company
+{
+  "mappings": {
+    "employee":{
+    "properties": {
+      "name": {"type": "text"},
+      "salary": {"type": "long"},
+      "location":{"type":"geo_point"}
+      }
+    }
+  }
+}
+
+
+## Check mappings
+ GET /company/_mapping
+
+
+
+## Create Employee 1
+POST /company/employee/1
+{
+  "name" : "Test1",
+  "email" : "test1@gmail.com",
+  "salary" : 5
+}
+
+## Create Employee 2
+POST /company/employee/2
+{
+  "name" : "Test",
+  "email" : "test@gmail.com",
+  "salary" : 3
+}
+
+
+GET /company/_search
+{
+    "aggs" : {
+        "total_salary" : {
+            "sum" : { "field" : "salary" } 
+        }
+    }
+}
+
+
+## Mappings Example creating new Department Type
+PUT my_index1
+{
+  "mappings": {
+    "department":{
+    "properties": {
+      "salary": {"type": "long"},
+      "email": {"type": "text"},
+      "name": { "type": "text"  },
+      "location":   { "type": "geo_point" }, 
+      "created":  {
+        "type":   "date",
+        "format": "strict_date_optional_time||epoch_millis"
+      }
+    }
+    }
+  }
+}
+
+DELETE my_index1
+
+
+
+
+
+
