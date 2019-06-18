@@ -73,26 +73,23 @@ GET /company/_search
 }
 
 
-## Mappings Example creating new Department Type
-PUT my_index1
-{
-  "mappings": {
-    "department":{
-    "properties": {
-      "salary": {"type": "long"},
-      "email": {"type": "text"},
-      "name": { "type": "text"  },
-      "location":   { "type": "geo_point" }, 
-      "created":  {
-        "type":   "date",
-        "format": "strict_date_optional_time||epoch_millis"
-      }
-    }
-    }
-  }
-}
+## Sample of Bulk API to work with
+POST /company/employee/_bulk
+{ "index": { "_id": 1 }}
+{ "name" : "Sachin", "email" : "sachin@gmail.com","salary" : 15}
+{ "index": { "_id": 2 }}
+{ "name" : "Rohit", "email" : "rohit@gmail.com","salary" : 10}
+{ "index": { "_id": 3 }}
+{ "name" : "Virat", "email" : "virat@gmail.com","salary" : 10}
+{ "index": { "_id": 4 }}
+{ "name" : "Kumble", "email" : "kumble@gmail.com","salary" : 5}
+{ "index": { "_id": 5 }}
+{ "name" : "Robin", "email" : "robin@gmail.com","salary" : 5}
+{ "index": { "_id": 6 }}
+{ "name" : "Dhoni", "email" : "dhoni@gmail.com","salary" : 20}
 
-DELETE my_index1
+## Check Data if inserted into Index
+GET /company/employee/_search
 
 
 
