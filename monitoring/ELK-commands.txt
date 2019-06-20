@@ -329,6 +329,500 @@ POST /company/employee/_bulk
 GET /company/employee/_search
 
 
+GET company
+
+GET comapny/_search
+
+## Old way of doing which may not work 8 version above
+GET company/employee/1
+
+GET company/_doc/2
+
+DELETE company
+
+POST /company/_doc/_bulk
+{ "index": { "_id": 1 }}
+{ "name" : "Sachin", "email" : "sachin@gmail.com","salary" : 15}
+{ "index": { "_id": 2 }}
+{ "name" : "Rohit", "email" : "rohit@gmail.com","salary" : 10}
+{ "index": { "_id": 3 }}
+{ "name" : "Virat", "email" : "virat@gmail.com","salary" : 10}
+{ "index": { "_id": 4 }}
+{ "name" : "Kumble", "email" : "kumble@gmail.com","salary" : 5}
+{ "index": { "_id": 5 }}
+{ "name" : "Robin", "email" : "robin@gmail.com","salary" : 5}
+{ "index": { "_id": 6 }}
+{ "name" : "Dhoni", "email" : "dhoni@gmail.com","salary" : 20}
+
+GET company/_search
+
+POST /company/employee
+{"name" : "Shekar", "email" : "shekar@gmail.com","salary" : 8}
+
+GET /company/employee/Q0Rac2sBC-jye6xpcwZA
+
+DELETE /company/employee/Q0Rac2sBC-jye6xpcwZA
+
+
+GET company/_search
+
+
+HEAD /company/employee/Q0Rac2sBC-jye6xpcwZA
+
+
+
+HEAD /company/employee/1
+
+GET /company/employee/1
+
+PUT company/employee/1
+{"name" : "Sachin", "email" : "sachin@gmail.com","salary" : 20}
+
+GET /company/employee/1
+
+GET /company/
+
+POST twitter/_doc/
+{
+    "user" : "kimchy",
+    "post_date" : "2009-11-15T14:12:12",
+    "message" : "trying out Elasticsearch"
+}
+
+PUT twitter/_doc/1
+{
+    "user" : "kimchy",
+    "post_date" : "2009-11-15T14:12:12",
+    "message" : "trying out Elasticsearch"
+}
+
+GET twitter/_search
+
+GET /company/employee/1
+
+PUT company/employee/1
+{"name" : "Sachin", "email" : "sachin@gmail.com","salary" : 15}
+
+GET /company/employee/1
+
+GET twitter/_doc/1
+
+PUT twitter/_doc/1?version=30&version_type=external
+{
+    "message" : "messages"
+}
+
+
+GET twitter/_doc/1
+
+GET _cat/indices
+
+GET /my_index
+
+HEAD /my_index
+
+PUT my_index
+
+GET _cat/indices
+
+
+GET twitter/_search
+
+POST twitter/_close
+
+
+GET _cat/indices
+
+GET twitter/_search
+
+POST twitter/_open
+
+
+GET twitter/_search
+
+GET _cat/indices
+
+DELETE twitter
+
+GET company/_settings
+
+PUT specific_index/
+{
+  "settings" : {
+      "index.number_of_shards" : "3",
+      "index.number_of_replicas" : "1"
+    }
+}
+
+DELETE specific_index
+
+GET specific_index/_settings
+
+PUT /specific_index/_settings
+{
+  "settings": {
+    "index.routing.allocation.require._name": "shrink_node_name", 
+    "index.blocks.write": true 
+  }
+}
+
+POST specific_index/_shrink/shrinked_index
+{
+  "settings" : {
+      "index.number_of_shards" : "1",
+      "index.number_of_replicas" : "1",
+      "index.blocks.write": null 
+    }
+}
+
+GET /specific_index/_settings
+GET /specific_index/_search
+
+GET /shrinked_index/_settings
+GET /shrinked_index/_search
+
+GET _cat/indices
+
+POST company/_split/scaled_company
+{
+  "settings": {
+    "index.number_of_shards" : "3"
+  }
+}
+
+GET scaled_company/_settings
+
+
+###
+GET company
+
+GET _cat/aliases
+
+GET /_alias
+
+## Add mycompany as alias
+
+POST _aliases
+{
+  "actions": [
+    {
+      "add": {
+        "index": "company",
+        "alias": "ustglobal"
+      }
+    }
+  ]
+}
+
+## Now I can search aliases
+GET ustglobal/_search
+GET company/_search
+
+POST _aliases
+{
+  "actions": [
+    {
+      "remove": {
+        "index": "company",
+        "alias": "ustglobal"
+      }
+    }
+  ]
+}
+GET /_alias
+
+GET ustglobal/_search
+
+## To end customer alias name
+POST _aliases
+{
+  "actions": [
+    {
+      "add": {
+        "index": "company",
+        "alias": "ustglobal"
+      }
+    }
+  ]
+}
+
+GET ustglobal/_search
+
+## From comapny new_company
+
+
+POST _aliases
+{
+  "actions": [
+    {
+      "remove": {
+        "index": "company",
+        "alias": "ustglobal"
+      }
+    }
+  ]
+}
+
+POST _aliases
+{
+  "actions": [
+    {
+      "add": {
+        "index": "new_company",
+        "alias": "ustglobal"
+      }
+    }
+  ]
+}
+
+GET ustglobal/_search
+
+
+### Book _Store
+
+PUT /bookdb_index
+    { "settings": { "number_of_shards": 1 }}
+    
+GET /bookdb_index
+
+POST /bookdb_index/book/_bulk
+{ "index": { "_id": 1 }}
+{ "title": "Elasticsearch: The Definitive Guide", "authors": ["clinton gormley", "zachary tong"], "summary" : "A distibuted real-time search and analytics engine", "publish_date" : "2015-02-07", "num_reviews": 20, "publisher": "oreilly" }
+{ "index": { "_id": 2 }}
+{ "title": "Taming Text: How to Find, Organize, and Manipulate It", "authors": ["grant ingersoll", "thomas morton", "drew farris"], "summary" : "organize text using approaches such as full-text search, proper name recognition, clustering, tagging, information extraction, and summarization", "publish_date" : "2013-01-24", "num_reviews": 12, "publisher": "manning" }
+{ "index": { "_id": 3 }}
+{ "title": "Elasticsearch in Action", "authors": ["radu gheorge", "matthew lee hinman", "roy russo"], "summary" : "build scalable search applications using Elasticsearch without having to do complex low-level programming or understand advanced data science algorithms", "publish_date" : "2015-12-03", "num_reviews": 18, "publisher": "manning" }
+{ "index": { "_id": 4 }}
+{ "title": "Solr in Action", "authors": ["trey grainger", "timothy potter"], "summary" : "Comprehensive guide to implementing a scalable search engine using Apache Solr", "publish_date" : "2014-04-05", "num_reviews": 23, "publisher": "manning" }
+
+GET bookdb_index/_search
+
+# Search Lite API
+GET bookdb_index/book/_search?q=guide
+
+# Equivalent Query DSL API
+POST bookdb_index/book/_search
+{
+  "query": {
+    "multi_match": {
+      "query": "guide"
+    }
+  }
+}
+
+
+# Specific Field Seach
+GET /bookdb_index/book/_search?q=title:in action
+
+
+# Equivalent Query DSL API
+POST bookdb_index/book/_search
+{
+  "query": {
+    "multi_match": {
+      "query": "in action"
+    }
+  }
+}
+
+POST bookdb_index/book/_search
+{
+  "query": {
+    "match": {
+      "title": "in action"
+    }
+  }
+}
+
+
+
+# “Elasticsearch” OR “Solr” in the title
+POST bookdb_index/book/_search
+{
+  "query": {
+    "bool": {
+      "should": [
+        {
+          "match": {
+            "title": "Elasticsearch"
+          }
+        },
+        {
+          "match": {
+            "title": "Solr"
+          }
+        }
+      ]
+    }
+  }
+}
+
+# authored by “clinton gormley”
+POST bookdb_index/book/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {"match": {
+          "authors": "clinton gormley"
+        }}
+      ]
+    }
+  }
+}
+
+# authored by “clinton gormley” but NOT authored by “radu gheorge”
+
+POST bookdb_index/book/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {"match": {
+          "authors": "clinton gormley"
+        }}
+      ],
+      "must_not": [
+        {"match": {
+          "authors": "radu gheorge"
+        }}
+      ]
+    }
+  }
+}
+
+
+# Condition 1 AND Conditon 2
+POST bookdb_index/book/_search
+{
+ "query": {
+   "bool": {
+     "must": {
+       "bool" : {
+         "should": [
+           { "match": { "title": "Elasticsearch" }},
+           { "match": { "title": "Solr" }}
+         ],
+         "must": { "match": { "authors": "clinton gormely" }}
+       }
+     },
+     "must_not": { "match": {"authors": "radu gheorge" }}
+   }
+ }
+}
+
+
+## Example Term
+POST bookdb_index/book/_search
+{
+  "query": {
+    "term": {
+      "publisher": {
+        "value": "oreilly"
+      }
+    }
+  }
+}
+
+POST bookdb_index/book/_search
+{
+  "query": {
+    "match": {
+      "title": "Solr in action"
+    }
+  }
+}
+
+POST /bookdb_index/book/_search
+{
+   "query": {
+       "term" : {
+           "publisher": "manning"
+       }
+   },
+   "sort": [
+       { "num_reviews": {"order":"desc"}}
+   ]
+}
+
+POST bookdb_index/book/_search
+{
+  "query": {
+    "match": {
+      "title": "Solr in action"
+    }
+  },
+   "sort": [
+       { "num_reviews": {"order":"asc"}}
+   ]
+  
+}
+
+GET /bookdb_index/book/_search
+
+POST /bookdb_index/book/_search
+{
+   "query": {
+       "range" : {
+           "publish_date": {
+               "gte": "2015-02-07",
+               "lt": "2015-12-31"
+           }
+       }
+   }
+}
+
+>   lt
+<   gt
+<=  gte
+>=  lte
+==  eq
+
+
+## Cat Commands
+GET _alias
+
+GET _cluster/health
+
+
+
+GET _cluster/health
+
+GET _search_shards
+
+GET _cat/aliases
+GET _cat/indices
+GET _cat/nodes
+GET _cat/health
+GET _cat/master
+GET _cat/shards
+
+GET _cat/plugins
+
+GET _cat/nodes
+
+GET _cluster/nodes
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
