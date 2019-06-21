@@ -1,0 +1,853 @@
+GET company
+
+GET comapny/_search
+
+## Old way of doing which may not work 8 version above
+GET company/employee/1
+
+GET company/_doc/2
+
+DELETE company
+
+POST /cricket/_doc/_bulk
+{ "index": { "_id": 1 }}
+{ "name" : "Sachin", "email" : "sachin@gmail.com","salary" : 15,"country":"india"}
+{ "index": { "_id": 2 }}
+{ "name" : "Rohit", "email" : "rohit@gmail.com","salary" : 10,"country":"india"}
+{ "index": { "_id": 3 }}
+{ "name" : "Virat", "email" : "virat@gmail.com","salary" : 10,"country":"india"}
+{ "index": { "_id": 4 }}
+{ "name" : "Kumble", "email" : "kumble@gmail.com","salary" : 5,"country":"india"}
+{ "index": { "_id": 5 }}
+{ "name" : "Robin", "email" : "robin@gmail.com","salary" : 5,"country":"india"}
+{ "index": { "_id": 6 }}
+{ "name" : "Dhoni", "email" : "dhoni@gmail.com","salary" : 20,"country":"india"}
+{ "index": { "_id": 11 }}
+{ "name" : "Joe", "email" : "joe@gmail.com","salary" : 16,"country":"england"}
+{ "index": { "_id": 12 }}
+{ "name" : "Morgon", "email" : "morgan@gmail.com","salary" : 21,"country":"england"}
+{ "index": { "_id": 13 }}
+{ "name" : "Jofra", "email" : "jofra@gmail.com","salary" : 23,"country":"england"}
+{ "index": { "_id": 14 }}
+{ "name" : "Buttler", "email" : "buttler@gmail.com","salary" : 12,"country":"england"}
+{ "index": { "_id": 15 }}
+{ "name" : "Stokes", "email" : "stokes@gmail.com","salary" : 15,"country":"england"}
+{ "index": { "_id": 16 }}
+{ "name" : "Chris", "email" : "chris@gmail.com","salary" : 34,"country":"england"}
+
+
+
+### Aggregation
+
+POST /cricket/_search
+{
+"aggs": {
+    "total_salary": {
+      "sum": {
+        "field": "salary"
+      }
+    }
+  }
+}
+
+POST /cricket/_search?size=0
+{
+    "aggs" : {
+        "avg_salary" : { "avg" : { "field" : "salary" } }
+    }
+}
+
+POST /cricket/_search?size=0
+{
+    "aggs" : {
+        "max_salary" : { "max" : { "field" : "salary" } }
+    }
+}
+
+POST /company/_search?size=0
+{
+    "aggs" : {
+        "min_salary" : { "min" : { "field" : "salary" } }
+    }
+}
+
+POST /company/_search?size=0
+{
+    "aggs" : {
+        "total_salary" : { "sum" : { "field" : "salary" } }
+    }
+}
+
+## Cardinality
+POST /cricket/_search?size=0
+{
+    "aggs" : {
+        "countries" : {
+            "cardinality" : {
+                "field" : "name.keyword"
+            }
+        }
+    }
+}
+
+POST /company/_search?size=0
+{
+    "query" : {
+        "constant_score" : {
+            "filter" : {
+                "match" : { "country" : "india" }
+            }
+        }
+    },
+    "aggs" : {
+        "total_salary" : { "sum" : { "field" : "salary" } }
+    }
+}
+
+
+## Buckets
+
+### Term Buckets
+
+POST /cricket/_search?size=0
+{
+    "aggs" : {
+        "countries" : {
+            "terms" : { "field" : "country.keyword" } 
+        }
+    }
+}
+
+### Filter Buckets
+
+POST /cricket/_search?size=0
+{
+    "aggs" : {
+        "countries" : {
+            "filter" : { "term": { "country.keyword": "india" } },
+            "aggs" : {
+                "avg_salary_india" : { "avg" : { "field" : "salary" } }
+            }
+        }
+    }
+}
+
+## Range Buckets
+POST /cricket/_search?size=0
+{
+   "aggs" : {
+        "price_ranges" : {
+            "range" : {
+                "field" : "salary",
+                "ranges" : [
+                    { "to" : 10 },
+                    { "from" : 10, "to" : 20 },
+                    { "from" : 20 }
+                ]
+            },"aggs": {
+              "total_salary": {
+                "sum": {"field" : "salary"}
+              }
+            }
+            
+        }
+    }
+}
+
+## Mixing Together find todal salary from England and India
+
+POST /cricket/_search?size=0
+{
+    "aggs" : {
+        "countries" : {
+            "terms" : { "field" : "country.keyword" }
+            ,"aggs": {
+              "total_salary": {
+                "sum": {"field" : "salary"}
+          }
+      }
+    }
+  }
+}
+
+
+
+
+## Range Buckets
+POST /cricket/_search?size=0
+{
+   "aggs" : {
+        "price_ranges" : {
+            "range" : {
+                "field" : "salary",
+                "ranges" : [
+                    { "to" : 10 },
+                    { "from" : 10, "to" : 20 },
+                    { "from" : 20 }
+                ]
+            }
+        }
+    }
+}
+
+
+
+
+HEAD /company/employee/Q0Rac2sBC-jye6xpcwZA
+
+
+
+HEAD /company/employee/1
+
+GET /company/employee/1
+
+PUT company/employee/1
+{"name" : "Sachin", "email" : "sachin@gmail.com","salary" : 20}
+
+GET /company/employee/1
+
+GET /company/
+
+POST twitter/_doc/
+{
+    "user" : "kimchy",
+    "post_date" : "2009-11-15T14:12:12",
+    "message" : "trying out Elasticsearch"
+}
+
+PUT twitter/_doc/1
+{
+    "user" : "kimchy",
+    "post_date" : "2009-11-15T14:12:12",
+    "message" : "trying out Elasticsearch"
+}
+
+GET twitter/_search
+
+GET /company/employee/1
+
+PUT company/employee/1
+{"name" : "Sachin", "email" : "sachin@gmail.com","salary" : 15}
+
+GET /company/employee/1
+
+GET twitter/_doc/1
+
+PUT twitter/_doc/1?version=30&version_type=external
+{
+    "message" : "messages"
+}
+
+
+GET twitter/_doc/1
+
+GET _cat/indices
+
+GET /my_index
+
+HEAD /my_index
+
+PUT my_index
+
+GET _cat/indices
+
+
+GET twitter/_search
+
+POST twitter/_close
+
+
+GET _cat/indices
+
+GET twitter/_search
+
+POST twitter/_open
+
+
+GET twitter/_search
+
+GET _cat/indices
+
+DELETE twitter
+
+GET company/_settings
+
+PUT specific_index/
+{
+  "settings" : {
+      "index.number_of_shards" : "3",
+      "index.number_of_replicas" : "1"
+    }
+}
+
+DELETE specific_index
+
+GET specific_index/_settings
+
+PUT /specific_index/_settings
+{
+  "settings": {
+    "index.routing.allocation.require._name": "shrink_node_name", 
+    "index.blocks.write": true 
+  }
+}
+
+POST specific_index/_shrink/shrinked_index
+{
+  "settings" : {
+      "index.number_of_shards" : "1",
+      "index.number_of_replicas" : "1",
+      "index.blocks.write": null 
+    }
+}
+
+GET /specific_index/_settings
+GET /specific_index/_search
+
+GET /shrinked_index/_settings
+GET /shrinked_index/_search
+
+GET _cat/indices
+
+POST company/_split/scaled_company
+{
+  "settings": {
+    "index.number_of_shards" : "3"
+  }
+}
+
+GET scaled_company/_settings
+
+
+###
+GET company
+
+GET _cat/aliases
+
+GET /_alias
+
+## Add mycompany as alias
+
+POST _aliases
+{
+  "actions": [
+    {
+      "add": {
+        "index": "company",
+        "alias": "ustglobal"
+      }
+    }
+  ]
+}
+
+## Now I can search aliases
+GET ustglobal/_search
+GET company/_search
+
+POST _aliases
+{
+  "actions": [
+    {
+      "remove": {
+        "index": "company",
+        "alias": "ustglobal"
+      }
+    }
+  ]
+}
+GET /_alias
+
+GET ustglobal/_search
+
+## To end customer alias name
+POST _aliases
+{
+  "actions": [
+    {
+      "add": {
+        "index": "company",
+        "alias": "ustglobal"
+      }
+    }
+  ]
+}
+
+GET ustglobal/_search
+
+## From comapny new_company
+
+
+POST _aliases
+{
+  "actions": [
+    {
+      "remove": {
+        "index": "company",
+        "alias": "ustglobal"
+      }
+    }
+  ]
+}
+
+POST _aliases
+{
+  "actions": [
+    {
+      "add": {
+        "index": "new_company",
+        "alias": "ustglobal"
+      }
+    }
+  ]
+}
+
+GET ustglobal/_search
+
+
+### Book _Store
+
+PUT /bookdb_index
+    { "settings": { "number_of_shards": 1 }}
+    
+GET /bookdb_index
+
+POST /bookdb_index/book/_bulk
+{ "index": { "_id": 1 }}
+{ "title": "Elasticsearch: The Definitive Guide", "authors": ["clinton gormley", "zachary tong"], "summary" : "A distibuted real-time search and analytics engine", "publish_date" : "2015-02-07", "num_reviews": 20, "publisher": "oreilly" }
+{ "index": { "_id": 2 }}
+{ "title": "Taming Text: How to Find, Organize, and Manipulate It", "authors": ["grant ingersoll", "thomas morton", "drew farris"], "summary" : "organize text using approaches such as full-text search, proper name recognition, clustering, tagging, information extraction, and summarization", "publish_date" : "2013-01-24", "num_reviews": 12, "publisher": "manning" }
+{ "index": { "_id": 3 }}
+{ "title": "Elasticsearch in Action", "authors": ["radu gheorge", "matthew lee hinman", "roy russo"], "summary" : "build scalable search applications using Elasticsearch without having to do complex low-level programming or understand advanced data science algorithms", "publish_date" : "2015-12-03", "num_reviews": 18, "publisher": "manning" }
+{ "index": { "_id": 4 }}
+{ "title": "Solr in Action", "authors": ["trey grainger", "timothy potter"], "summary" : "Comprehensive guide to implementing a scalable search engine using Apache Solr", "publish_date" : "2014-04-05", "num_reviews": 23, "publisher": "manning" }
+
+GET bookdb_index/_search
+
+# Search Lite API
+GET bookdb_index/book/_search?q=guide
+
+# Equivalent Query DSL API
+POST bookdb_index/book/_search
+{
+  "query": {
+    "multi_match": {
+      "query": "guide"
+    }
+  }
+}
+
+
+# Specific Field Seach
+GET /bookdb_index/book/_search?q=title:in action
+
+
+# Equivalent Query DSL API
+POST bookdb_index/book/_search
+{
+  "query": {
+    "multi_match": {
+      "query": "in action"
+    }
+  }
+}
+
+POST bookdb_index/book/_search
+{
+  "query": {
+    "match": {
+      "title": "in action"
+    }
+  }
+}
+
+
+
+# “Elasticsearch” OR “Solr” in the title
+POST bookdb_index/book/_search
+{
+  "query": {
+    "bool": {
+      "should": [
+        {
+          "match": {
+            "title": "Elasticsearch"
+          }
+        },
+        {
+          "match": {
+            "title": "Solr"
+          }
+        }
+      ]
+    }
+  }
+}
+
+# authored by “clinton gormley”
+POST bookdb_index/book/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {"match": {
+          "authors": "clinton gormley"
+        }}
+      ]
+    }
+  }
+}
+
+# authored by “clinton gormley” but NOT authored by “radu gheorge”
+
+POST bookdb_index/book/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {"match": {
+          "authors": "clinton gormley"
+        }}
+      ],
+      "must_not": [
+        {"match": {
+          "authors": "radu gheorge"
+        }}
+      ]
+    }
+  }
+}
+
+
+# Condition 1 AND Conditon 2
+POST bookdb_index/book/_search
+{
+ "query": {
+   "bool": {
+     "must": {
+       "bool" : {
+         "should": [
+           { "match": { "title": "Elasticsearch" }},
+           { "match": { "title": "Solr" }}
+         ],
+         "must": { "match": { "authors": "clinton gormely" }}
+       }
+     },
+     "must_not": { "match": {"authors": "radu gheorge" }}
+   }
+ }
+}
+
+
+## Example Term
+POST bookdb_index/book/_search
+{
+  "query": {
+    "term": {
+      "publisher": {
+        "value": "oreilly"
+      }
+    }
+  }
+}
+
+POST bookdb_index/book/_search
+{
+  "query": {
+    "match": {
+      "title": "Solr in action"
+    }
+  }
+}
+
+POST /bookdb_index/book/_search
+{
+   "query": {
+       "term" : {
+           "publisher": "manning"
+       }
+   },
+   "sort": [
+       { "num_reviews": {"order":"desc"}}
+   ]
+}
+
+POST bookdb_index/book/_search
+{
+  "query": {
+    "match": {
+      "title": "Solr in action"
+    }
+  },
+   "sort": [
+       { "num_reviews": {"order":"asc"}}
+   ]
+  
+}
+
+GET /bookdb_index/book/_search
+
+POST /bookdb_index/book/_search
+{
+   "query": {
+       "range" : {
+           "publish_date": {
+               "gte": "2015-02-07",
+               "lt": "2015-12-31"
+           }
+       }
+   }
+}
+
+# >   lt
+# <   gt
+# <=  gte
+# >=  lte
+# ==  eq
+
+
+## Cat Commands
+GET _alias
+
+GET _cluster/health
+
+
+
+GET _cluster/health
+
+GET _search_shards
+
+GET _cat/aliases
+GET _cat/indices
+GET _cat/nodes
+GET _cat/health
+GET _cat/master
+GET _cat/shards
+
+GET _cat/plugins
+
+GET _cat/nodes
+
+GET _cluster/nodes
+
+
+## Analyizers Example
+
+POST /_analyze?pretty
+{
+
+ "tokenizer": "standard",
+ "text": "The Auto-generation is a success"
+}
+
+GET _analyze
+{
+  "tokenizer": "standard",
+  "char_filter": [
+    "html_strip"
+  ],
+  "text": "The <b> Auto-generation </b> is a success"
+}
+
+
+
+POST /_analyze?pretty
+{
+  "tokenizer": "standard",
+  "filter": [
+    "lowercase"
+  ],
+  "text": "The Auto-generation is a success"
+}
+
+POST /analysisexample/typedoc/1
+{
+
+  "text": "The auto generation is a success"
+
+}
+
+POST /analysisexample/typedoc/_search
+{
+  "query": {
+    "term": {
+      "text": "auto"
+    }
+  }
+}
+
+GET /analysisexample/_settings?pretty=true
+
+
+GET _analyze
+{
+   "char_filter": [
+    "html_strip"
+  ],
+  "tokenizer": "standard",
+  "filter": [
+    "lowercase"
+  ],
+  "text": "The <b> Auto-generation </b> is a success"
+}
+
+
+POST /analysisexample/_analyze
+{
+
+ "analyzer": "english",
+ "text": "The Auto-generation is a success"
+}
+
+## Work during creation 
+PUT /newindex
+{  
+   "settings":{  
+      "analysis":{  
+         "analyzer":{  
+            "es_std":{  
+               "type":"standard",
+               "stopwords":"_spanish_"
+            }
+         }
+      }
+   }
+}
+
+GET /newindex/_settings
+
+POST /newindex/_analyze
+{
+ "text": "El veloz zorro marrón"
+}
+
+
+
+
+### Index
+
+DELETE /cars
+
+PUT specific_index/
+{
+  "settings" : {
+      "index.number_of_shards" : "3",
+      "index.number_of_replicas" : "1"
+    }
+}
+
+
+POST /sports/_bulk
+{"index":{"_index":"sports","_type":"athlete"}}
+{"name":"Michael", "birthdate":"1989-10-1", "sport":"Football", "rating": ["5", "4"],  "location":"46.22,-68.45", "age":"23","goals": "43","score_weight":"3","role":"midfielder"}
+{"index":{"_index":"sports","_type":"athlete"}}
+{"name":"Bob", "birthdate":"1989-11-2", "sport":"Football", "rating": ["3", "4"],  "location":"45.21,-68.35", "age":"33", "goals": "54","score_weight":"2", "role":"forward"}
+{"index":{"_index":"sports","_type":"athlete"}}
+{"name":"Jim", "birthdate":"1988-10-3", "sport":"Football", "rating": ["3", "2"],  "location":"45.16,-63.58", "age":"28", "goals": "73", "score_weight":"2", "role":"forward" }
+{"index":{"_index":"sports","_type":"athlete"}}
+{"name":"Joe", "birthdate":"1992-5-20", "sport":"Basketball", "rating": ["4", "3"],  "location":"45.22,-68.53", "age":"18", "goals": "848", "score_weight":"3", "role":"midfielder"}
+{"index":{"_index":"sports","_type":"athlete"}}
+{"name":"Tim", "birthdate":"1992-2-28", "sport":"Basketball", "rating": ["3", "3"],  "location":"46.22,-68.85", "age":"28","goals": "942", "score_weight":"2","role":"forward"}
+{"index":{"_index":"sports","_type":"athlete"}}
+{"name":"Alfred", "birthdate":"1990-9-9", "sport":"Football", "rating": ["2", "2"],  "location":"45.12,-68.35", "age":"25", "goals": "53", "score_weight":"4", "role":"defender"}
+{"index":{"_index":"sports","_type":"athlete"}}
+{"name":"Jeff", "birthdate":"1990-4-1", "sport":"Hockey", "rating": ["2", "3"], "location":"46.12,-68.55", "age":"26","goals": "93","score_weight":"3","role":"midfielder"}
+{"index":{"_index":"sports","_type":"athlete"}}
+{"name":"Will", "birthdate":"1988-3-1", "sport":"Hockey", "rating": ["4", "4"], "location":"46.25,-84.25", "age":"27", "goals": "124", "score_weight":"2", "role":"forward" }
+{"index":{"_index":"sports","_type":"athlete"}}
+{"name":"Mick", "birthdate":"1989-10-1", "sport":"Football", "rating": ["3", "4"],  "location":"46.22,-68.45", "age":"35","goals": "56","score_weight":"3", "role":"midfielder"}
+{"index":{"_index":"sports","_type":"athlete"}}
+{"name":"Pong", "birthdate":"1989-11-2", "sport":"Basketball", "rating": ["1", "3"],  "location":"45.21,-68.35", "age":"34","goals": "1483","score_weight":"2", "role":"forward"}
+{"index":{"_index":"sports","_type":"athlete"}}
+{"name":"Ray", "birthdate":"1988-10-3", "sport":"Football", "rating": ["2", "2"],  "location":"45.16,-63.58", "age":"31","goals": "84", "score_weight":"3", "role":"midfielder" }
+{"index":{"_index":"sports","_type":"athlete"}}
+{"name":"Ping", "birthdate":"1992-5-20", "sport":"Basketball", "rating": ["4", "3"],  "location":"45.22,-68.53", "age":"27","goals": "1328", "score_weight":"2", "role":"forward"}
+{"index":{"_index":"sports","_type":"athlete"}}
+{"name":"Duke", "birthdate":"1992-2-28", "sport":"Hockey", "rating": ["5", "2"],  "location":"46.22,-68.85", "age":"41","goals": "218", "score_weight":"2", "role":"forward"}
+{"index":{"_index":"sports","_type":"athlete"}}
+{"name":"Hal", "birthdate":"1990-9-9", "sport":"Hockey", "rating": ["4", "2"],  "location":"45.12,-68.35", "age":"18","goals": "148", "score_weight":"3", "role":"midfielder"}
+{"index":{"_index":"sports","_type":"athlete"}}
+{"name":"Charge", "birthdate":"1990-4-1", "sport":"Football", "rating": ["3", "2"], "location":"44.19,-82.55", "age":"19","goals": "34", "score_weight":"4", "role":"defender"}
+{"index":{"_index":"sports","_type":"athlete"}}
+{"name":"Barry", "birthdate":"1988-3-1", "sport":"Football", "rating": ["5", "2"], "location":"36.45,-79.15", "age":"20", "goals": "48", "score_weight":"4", "role":"defender" }
+{"index":{"_index":"sports","_type":"athlete"}}
+{"name":"Bank", "birthdate":"1988-3-1", "sport":"Handball", "rating": ["6", "4"], "location":"46.25,-54.53", "age":"25", "goals": "150", "score_weight":"4", "role":"defender" }
+{"index":{"_index":"sports","_type":"athlete"}}
+{"name":"Bingo", "birthdate":"1988-3-1", "sport":"Handball", "rating": ["10", "7"], "location":"46.25,-68.55", "age":"29", "goals": "143", "score_weight":"3", "role":"midfielder" }
+{"index":{"_index":"sports","_type":"athlete"}}
+{"name":"James", "birthdate":"1988-3-1", "sport":"Basketball", "rating": ["10", "8"], "location":"41.25,-69.55", "age":"36", "goals": "1284", "score_weight":"2", "role":"forward" }
+{"index":{"_index":"sports","_type":"athlete"}}
+{"name":"Wayne", "birthdate":"1988-3-1", "sport":"Hockey", "rating": ["10", "10"], "location":"46.21,-68.55", "age":"25", "goals": "113", "score_weight":"3", "role":"midfielder" }
+{"index":{"_index":"sports","_type":"athlete"}}
+{"name":"Brady", "birthdate":"1988-3-1", "sport":"Handball", "rating": ["10", "10"], "location":"63.24,-84.55", "age":"29", "goals": "443", "score_weight":"2", "role":"forward" }
+{"index":{"_index":"sports","_type":"athlete"}}
+{"name":"Lewis", "birthdate":"1988-3-1", "sport":"Football", "rating": ["10", "10"], "location":"56.25,-74.55", "age":"24", "goals": "49", "score_weight":"3", "role":"midfielder" }
+
+
+GET /sports/_mapping
+
+DELETE /sports
+
+POST /sports/athlete/_search
+{
+    "aggs": {
+        "sports":{
+            "terms" : { "field" : "sport.keyword" },
+            "aggs": {
+                "avg_scoring":{
+                    "avg": {"field":"goals.keyword"}
+                }
+            }
+        }
+    }
+}
+
+PUT sports
+{
+  "mappings": {
+    "properties": {
+      "sport": { 
+        "type": "text",
+        "fields": {
+          "keyword": { 
+            "type": "keyword"
+          }
+        }
+      },
+      "goals": { 
+        "type": "text",
+        "fields": {
+          "keyword": { 
+            "type": "keyword"
+          }
+        }
+      }
+    }
+  }
+}
+
+
+GET /company,company1/_search
+
+GET /company-{now}/search
+
+GET /nodejs-now/_search
+{
+  
+}
+
+GET /nodejs-*/_search
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
