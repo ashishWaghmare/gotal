@@ -1,6 +1,8 @@
-filebeat.prospectors:
+filebeat.inputs:
 - type: log
- paths:
+  paths:
    - /var/log/*.log
 output.logstash:
- hosts: ["logstash:5044"]
+ hosts: ["0.0.0.0:5044"]
+setup.kibana:
+ host: "localhost:5601"
