@@ -16,6 +16,8 @@ Will use python
 Captures service usuage by an Account which can be used to charge.
 Will use golang
 
+mvn io.quarkus:quarkus-maven-plugin:1.7.1.Final:create -DprojectGroupId=com.ashish.gotal -DprojectArtifactId=metering -Dextensions="vertx"
+
 
 
 
