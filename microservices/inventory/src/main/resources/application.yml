@@ -1,0 +1,5 @@
+micronaut:
+  application:
+    name: inventory
+  server:
+    port: ${PORT:8080}

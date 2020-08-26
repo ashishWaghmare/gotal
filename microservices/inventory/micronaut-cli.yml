@@ -1,0 +1,6 @@
+applicationType: default
+defaultPackage: com.ashish.gotal
+testFramework: spock
+sourceLanguage: java
+buildTool: gradle
+features: [annotation-api, app-name, docker, file-watch, gradle, http-client, java, java-application, logback, netty-server, readme, shade, spock, yaml]
