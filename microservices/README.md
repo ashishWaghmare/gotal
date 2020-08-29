@@ -20,4 +20,10 @@ mvn io.quarkus:quarkus-maven-plugin:1.7.1.Final:create -DprojectGroupId=com.ashi
 
 
 
+# Kubernetes artificat
+
+Below are the way to generate required artificat
+
+   kubectl run inventory --image inventory --dry-run -o yaml > deployment.yml
+   kubectl expose deployment inventory --type=NodePort --port=80 --target-port=8000 --dry-run -o yaml > service.yml 
 

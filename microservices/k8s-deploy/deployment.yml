@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    run: inventory
+  name: inventory
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: inventory
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        run: inventory
+    spec:
+      containers:
+      - image: localhost:32000/inventory
+        name: inventory
+        ports:
+        - containerPort: 8080
+        resources: {}
+status: {}
