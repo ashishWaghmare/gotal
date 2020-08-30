@@ -1,0 +1,7 @@
+apiVersion: v2
+name: users
+version: 1.0.0
+dependencies:
+    - name: service
+      version: 1.0.0
+      repository: file://../../../../svc

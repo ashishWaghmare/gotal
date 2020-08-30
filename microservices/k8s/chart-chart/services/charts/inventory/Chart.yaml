@@ -1,0 +1,12 @@
+apiVersion: v2
+name: inventory
+appVersion: "1.0"
+version: 1.0.0
+description: inventory of service
+dependencies:
+    - name: svc
+      version: 1.0.0
+      repository: file://../../../svc
+sources:
+  - https://github.com/helm/helm
+home: https://helm.sh/helm

@@ -1,0 +1,18 @@
+{{- define "svc.deployment.tpl" -}}
+apiVersion: apps/v1
+kind: Deployment
+{{ template "svc.metadata" . }}
+spec:
+  template:
+    metadata:
+      labels:
+        app: {{ template "svc.name" . }}
+        release: {{ .Release.Name | quote }}
+    spec:
+      containers:
+      -
+{{ include "svc.container.tpl" . | indent 8 }}
+{{- end -}}
+{{- define "svc.deployment" -}}
+{{- template "svc.util.merge" (append . "svc.deployment.tpl") -}}
+{{- end -}}

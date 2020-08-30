@@ -2,3 +2,6 @@
 
 
 helm create inventory
+
+
+helm package inventory

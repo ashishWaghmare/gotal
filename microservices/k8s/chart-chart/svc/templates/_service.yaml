@@ -1,0 +1,17 @@
+{{- define "svc.service.tpl" -}}
+apiVersion: v1
+kind: Service
+{{ template "svc.metadata" . }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+  - name: http
+    port: 80
+    targetPort: http
+  selector:
+    app: {{ template "svc.name" . }}
+    release: {{ .Release.Name | quote }}
+{{- end -}}
+{{- define "svc.service" -}}
+{{- template "svc.util.merge" (append . "svc.service.tpl") -}}
+{{- end -}}

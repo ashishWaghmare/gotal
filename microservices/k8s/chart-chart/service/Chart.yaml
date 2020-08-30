@@ -1,0 +1,8 @@
+apiVersion: v2
+name: service
+description: Template chart for all services
+appVersion: 1.16.0
+version: 1.0.0
+
+# A chart can be either an 'application' or a 'library' chart.
+type: library

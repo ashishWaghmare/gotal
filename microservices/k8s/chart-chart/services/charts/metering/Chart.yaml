@@ -1,0 +1,7 @@
+apiVersion: v2
+name: metering
+version: 1.0.0
+dependencies:
+    - name: service
+      version: 1.0.0
+      repository: file://../../../../svc
